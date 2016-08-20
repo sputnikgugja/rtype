@@ -74,26 +74,43 @@ module Rtype
 
 		define_typed_method_to_proxy(owner, method_name, expected_args, expected_kwargs, return_sig)
 	end
-
-	# Calls `attr_accessor` if the accessor method(getter/setter) is not defined.
-	# and makes it typed.
-	# 
-	# this method uses `define_typed_method` for getter and setter.
-	# 
+	
 	# @param owner Owner of the accessor
-	# @param [#to_sym] accessor_name
+	# @param [#to_sym] name
 	# @param type_behavior A type behavior. e.g. Integer
 	# @return [void]
 	# 
-	# @raise [ArgumentError] If accessor_name is nil
+	# @raise [ArgumentError] If name is nil
 	# @raise [TypeSignatureError]
-	def define_typed_accessor(owner, accessor_name, type_behavior)
-		raise ArgumentError, "accessor_name is nil" if accessor_name.nil?
-		getter = accessor_name.to_sym
-		setter = :"#{accessor_name}="
+	def define_typed_accessor(owner, name, type_behavior)
+		define_typed_reader(owner, name, type_behavior)
+		define_typed_writer(owner, name, type_behavior)
+	end
+	
+	# @param owner Owner of the getter
+	# @param [#to_sym] name
+	# @param type_behavior A type behavior. e.g. Integer
+	# @return [void]
+	# 
+	# @raise [ArgumentError] If name is nil
+	# @raise [TypeSignatureError]
+	def define_typed_reader(owner, name, type_behavior)
+		raise ArgumentError, "name is nil" if name.nil?
 		valid?(type_behavior, nil)
-		define_typed_method owner, getter, [] => type_behavior
-		define_typed_method owner, setter, [type_behavior] => Any
+		define_typed_method owner, name.to_sym, [] => type_behavior
+	end
+	
+	# @param owner Owner of the setter
+	# @param [#to_sym] name
+	# @param type_behavior A type behavior. e.g. Integer
+	# @return [void]
+	# 
+	# @raise [ArgumentError] If name is nil
+	# @raise [TypeSignatureError]
+	def define_typed_writer(owner, name, type_behavior)
+		raise ArgumentError, "name is nil" if name.nil?
+		valid?(type_behavior, nil)
+		define_typed_method owner, :"#{name}=", [type_behavior] => Any
 	end
 
 	# This is just 'information'
