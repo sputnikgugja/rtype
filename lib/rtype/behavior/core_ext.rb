@@ -49,126 +49,126 @@ end
 
 class Num
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::NumericCheck]
 	# @example Value must be a Numeric and > 2
 	#   rtype [Num > 2] => Any
 	def self.>(x)
-		lambda { |obj| obj.is_a?(Numeric) && obj > x }
+		::Rtype::Behavior::NumericCheck.new(:>, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::NumericCheck]
 	# @example Value must be a Numeric and > 2
 	#   rtype [Num > 2] => Any
 	def self.>=(x)
-		lambda { |obj| obj.is_a?(Numeric) && obj >= x }
+		::Rtype::Behavior::NumericCheck.new(:>=, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::NumericCheck]
 	# @example Value must be a Numeric and > 2
 	#   rtype [Num > 2] => Any
 	def self.<(x)
-		lambda { |obj| obj.is_a?(Numeric) && obj < x }
+		::Rtype::Behavior::NumericCheck.new(:<, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::NumericCheck]
 	# @example Value must be a Numeric and > 2
 	#   rtype [Num > 2] => Any
 	def self.<=(x)
-		lambda { |obj| obj.is_a?(Numeric) && obj <= x }
+		::Rtype::Behavior::NumericCheck.new(:<=, x)
 	end
 	
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::NumericCheck]
 	# @example Value must be a Numeric and > 2
 	#   rtype [Num > 2] => Any
 	def self.==(x)
-		lambda { |obj| obj.is_a?(Numeric) && obj == x }
+		::Rtype::Behavior::NumericCheck.new(:==, x)
 	end
 end
 
 class Int
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::IntegerCheck]
 	# @example Value must be a Integer and > 2
 	#   rtype [Int > 2] => Any
 	def self.>(x)
-		lambda { |obj| obj.is_a?(Integer) && obj > x }
+		::Rtype::Behavior::IntegerCheck.new(:>, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::IntegerCheck]
 	# @example Value must be a Integer and > 2
 	#   rtype [Int > 2] => Any
 	def self.>=(x)
-		lambda { |obj| obj.is_a?(Integer) && obj >= x }
+		::Rtype::Behavior::IntegerCheck.new(:>=, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::IntegerCheck]
 	# @example Value must be a Integer and > 2
 	#   rtype [Int > 2] => Any
 	def self.<(x)
-		lambda { |obj| obj.is_a?(Integer) && obj < x }
+		::Rtype::Behavior::IntegerCheck.new(:<, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::IntegerCheck]
 	# @example Value must be a Integer and > 2
 	#   rtype [Int > 2] => Any
 	def self.<=(x)
-		lambda { |obj| obj.is_a?(Integer) && obj <= x }
+		::Rtype::Behavior::IntegerCheck.new(:<=, x)
 	end
 	
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::IntegerCheck]
 	# @example Value must be a Integer and > 2
 	#   rtype [Int > 2] => Any
 	def self.==(x)
-		lambda { |obj| obj.is_a?(Integer) && obj == x }
+		::Rtype::Behavior::IntegerCheck.new(:==, x)
 	end
 end
 
 class Flo
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::FloatCheck]
 	# @example Value must be a Float and > 2
 	#   rtype [Flo > 2] => Any
 	def self.>(x)
-		lambda { |obj| obj.is_a?(Float) && obj > x }
+		::Rtype::Behavior::FloatCheck.new(:>, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::FloatCheck]
 	# @example Value must be a Float and > 2
 	#   rtype [Flo > 2] => Any
 	def self.>=(x)
-		lambda { |obj| obj.is_a?(Float) && obj >= x }
+		::Rtype::Behavior::FloatCheck.new(:>=, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::FloatCheck]
 	# @example Value must be a Float and > 2
 	#   rtype [Flo > 2] => Any
 	def self.<(x)
-		lambda { |obj| obj.is_a?(Float) && obj < x }
+		::Rtype::Behavior::FloatCheck.new(:<, x)
 	end
 
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::FloatCheck]
 	# @example Value must be a Float and > 2
 	#   rtype [Flo > 2] => Any
 	def self.<=(x)
-		lambda { |obj| obj.is_a?(Float) && obj <= x }
+		::Rtype::Behavior::FloatCheck.new(:<=, x)
 	end
 	
 	# @param [Numeric] x
-	# @return [Proc]
+	# @return [Rtype::Behavior::FloatCheck]
 	# @example Value must be a Float and > 2
 	#   rtype [Flo > 2] => Any
 	def self.==(x)
-		lambda { |obj| obj.is_a?(Float) && obj == x }
+		::Rtype::Behavior::FloatCheck.new(:==, x)
 	end
 end
