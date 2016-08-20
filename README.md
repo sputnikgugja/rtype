@@ -55,8 +55,16 @@ Test.invert2(state: 0)
 - ...
 
 ## Installation
-Run `gem install rtype` or add `gem 'rtype'` to your `Gemfile`
+### Manually
+Run `gem install rtype`
 
+### With Bundler
+Add the following to `Gemfile`
+```ruby
+gem 'rtype'
+gem 'rtype-native', platforms: :mri
+```
+### General
 And add to your `.rb` source file:
 ```ruby
 require 'rtype'
@@ -70,22 +78,10 @@ Run
 ```ruby
 gem install rtype-native
 ```
-or add to your `Gemfile`:
-```ruby
-gem 'rtype-native'
-```
-then, Rtype uses it. (**Do not** `require 'rtype-native'`)
+**Do not** `require 'rtype-native'`
 
-#### Java extension for JRuby
-Run
-```ruby
-gem install rtype-java
-```
-or add to your `Gemfile`:
-```ruby
-gem 'rtype-java'
-```
-then, Rtype uses it. (**Do not** `require 'rtype-java'`)
+#### Java extension for JRuby is automatic
+**Do not** `require 'rtype-java'`
 
 ## Usage
 

@@ -12,13 +12,16 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/sputnikgugja/rtype"
   s.summary = "Ruby with type"
   s.description = "The fastest type checking gem"
-  s.licenses = 'MIT'
+  s.licenses = "MIT"
 
   s.test_files = Dir["{test,spec}/**/*"]
-    # s.executables = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   s.require_paths = ["lib"] # by default it is ["lib"]
+  
+  if defined?(JRUBY_VERSION)
+    s.platform = "java"
+    s.add_dependency "rtype-java", Rtype::VERSION
+  end
 
-  # s.add_development_dependency "bundler", "~> 1.10"
   s.add_development_dependency "rake", "~> 11.0"
   s.add_development_dependency "rspec"
   s.add_development_dependency "coveralls"

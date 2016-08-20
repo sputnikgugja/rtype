@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
     # s.executables = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   s.require_paths = ["ext"] # by default it is ["lib"]
 
-  s.add_dependency "rtype", Rtype::VERSION
+  s.platform = "java"
 
   # s.add_development_dependency "bundler", "~> 1.10"
   s.add_development_dependency "rake", "~> 11.0"
