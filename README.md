@@ -17,7 +17,8 @@ class Test
     !state
   end
 
-  rtype({state: Boolean} => Boolean) # Hashes of Hashes params require () to prevent invalid syntax
+  # Hashes of hashes params require () to prevent invalid syntax
+  rtype({state: Boolean} => Boolean)
   def self.invert2(state:)
     !state
   end
@@ -49,8 +50,10 @@ Test.invert2(state: 0)
 - Provides type checking for [Keyword Argument](#keyword-argument)
 - [Type checking for hash elements](#hash)
 - [Duck Typing](#duck-typing)
-- [Typed Array](#typed-array)
+- [Typed Array](#typed-array), Typed Set, Typed Hash
 - [Numeric check](#special-behaviors). e.g. `Int >= 0`
+- [Type checking for getter and setter](#attr_accessor-with-rtype)
+- [float_accessor](#float_accessor), [bool_accessor](#bool_accessor)
 - Custom type behavior
 - ...
 
@@ -76,16 +79,8 @@ gem 'rtype-native'
 ```
 then, Rtype uses it. (**Do not** `require 'rtype-native'`)
 
-#### Java extension for JRuby
-Run
-```ruby
-gem install rtype-java
-```
-or add to your `Gemfile`:
-```ruby
-gem 'rtype-java'
-```
-then, Rtype uses it. (**Do not** `require 'rtype-java'`)
+#### Java extension for JRuby is automatic
+**Do not** `require 'rtype-java'`
 
 ## Usage
 
@@ -236,10 +231,12 @@ func({"msg" => "hello hash"})
 func({msg: "hello hash"}) # hello hash
 ```
 
-#### rtype with attr_accessor
-`rtype_accessor` : calls `attr_accessor` if the accessor method(getter/setter) is not defined. and makes it typed
+#### attr_accessor with rtype
+- `rtype_accessor(*names, type)` : calls `attr_accessor` if the accessor methods(getter/setter) are not defined. and makes it typed
+- `rtype_reader(*names, type)` : calls `attr_reader` if the getters are not defined. and makes it typed
+- `rtype_writer(*names, type)` : calls `attr_writer` if the setters are not defined. and makes it typed
 
-You can use `rtype_accessor_self` for static accessor.
+You can use `rtype_accessor_self` for static accessor. (`rtype_reader_self`, `rtype_writer_self` also exist)
 
 ```ruby
 require 'rtype'
@@ -291,6 +288,29 @@ end
 
 sum([1, 2, 3]) # => 6
 sum([1.0, 2, 3]) # => 6.0
+```
+
+#### float_accessor
+```ruby
+class Point
+  float_accessor :x, :y
+end
+
+v = Point.new
+v.x = 1
+v.x # => 1.0 (always Float)
+```
+
+#### bool_accessor
+```ruby
+class Human
+  bool_accessor :hungry
+end
+
+a = Human.new
+a.hungry = true
+a.hungry? # => true
+a.hungry # NoMethodError
 ```
 
 #### `rtype`
@@ -400,9 +420,14 @@ Example.new.method(:test).return_type
 
 #### Special Behaviors
   - `TypedArray` : Ensures value is an array with the type (type signature)
-    - `Array::of(type)` (recommended)
-    - or `Rtype::Behavior::TypedArray[type]`
+    - `Array.of(type)` (recommended)
     - Example: [TypedArray](#typed-array)
+    
+  - `TypedSet` : Ensures value is a set with the type (type signature)
+    - `Set.of(type)` (recommended)
+    
+  - `TypedHash` : Ensures value is a hash with the type (type signature)
+    - `Hash.of(key_type, value_type)` (recommended)
   
   - `Num, Int, Flo` : Numeric check
     - `Num/Int/Flo >/>=/</<=/== x`
@@ -411,19 +436,19 @@ Example.new.method(:test).return_type
     - e.g. `Flo >= 2` means value must be a `Float` and >= 2
   
   - `And` : Ensures value is valid for all given types
-    - `Rtype::and(*types)`, `Rtype::Behavior::And[*types]`
+    - `Rtype.and(*types)`, `Rtype::Behavior::And[*types]`
     - or `Array#comb`, `Object#and(*others)`
     
   - `Xor` : Ensures value is valid for only one of given types
-    - `Rtype::xor(*types)`, `Rtype::Behavior::Xor[*types]`
+    - `Rtype.xor(*types)`, `Rtype::Behavior::Xor[*types]`
     - or `Object#xor(*others)`
 
   - `Not` : Ensures value is not valid for all given types
-    - `Rtype::not(*types)`, `Rtype::Behavior::Not[*types]`
+    - `Rtype.not(*types)`, `Rtype::Behavior::Not[*types]`
     - or `Object#not`
 
   - `Nilable` : Value can be nil
-    - `Rtype::nilable(type)`, `Rtype::Behavior::Nilable[type]`
+    - `Rtype.nilable(type)`, `Rtype::Behavior::Nilable[type]`
     - or `Object#nilable`, `Object#or_nil`
 
   - You can create custom behaviors by extending `Rtype::Behavior::Base`
