@@ -479,6 +479,65 @@ describe Rtype do
 				end
 			end
 			
+			describe 'Rtype::Behavior::TypedSet' do
+				it 'class singleton [] method' do
+					klass.send :rtype, :return_nil, [ Rtype::Behavior::TypedSet[Integer] ] => nil
+					instance.return_nil( Set.new([123]) )
+					expect {instance.return_nil(123)}.to raise_error Rtype::ArgumentTypeError
+					expect { instance.return_nil(Set.new([1.0])) }.to raise_error Rtype::ArgumentTypeError
+				end
+
+				it 'core extension method (Set::of)' do
+					klass.send :rtype, :return_nil, [ Set.of(Integer) ] => nil
+					instance.return_nil( Set.new([123]) )
+					expect {instance.return_nil(123)}.to raise_error Rtype::ArgumentTypeError
+					expect { instance.return_nil(Set.new([1.0])) }.to raise_error Rtype::ArgumentTypeError
+				end
+				
+				it 'complicated type sig' do
+					klass.send :rtype, :return_nil, [ Set.of(:to_i.and(:chars)) ] => nil
+					instance.return_nil( Set.new(["hello"]) )
+					expect {instance.return_nil("hello")}.to raise_error Rtype::ArgumentTypeError
+					expect { instance.return_nil(Set.new([123])) }.to raise_error Rtype::ArgumentTypeError
+				end
+				
+				it 'allows empty set' do
+					klass.send :rtype, :return_nil, [ Set.of(Integer) ] => nil
+					instance.return_nil(Set.new)
+				end
+			end
+			
+			describe 'Rtype::Behavior::TypedHash' do
+				it 'class singleton [] method' do
+					klass.send :rtype, :return_nil, [ Rtype::Behavior::TypedHash[Symbol, Integer] ] => nil
+					instance.return_nil( {key: 123} )
+					expect {instance.return_nil(:key)}.to raise_error Rtype::ArgumentTypeError
+					expect {instance.return_nil(123)}.to raise_error Rtype::ArgumentTypeError
+					expect {instance.return_nil( {"key" => 123} )}.to raise_error Rtype::ArgumentTypeError
+				end
+
+				it 'core extension method (Hash::of)' do
+					klass.send :rtype, :return_nil, [ Hash.of(Symbol, Integer) ] => nil
+					instance.return_nil( {key: 123} )
+					expect {instance.return_nil(:key)}.to raise_error Rtype::ArgumentTypeError
+					expect {instance.return_nil(123)}.to raise_error Rtype::ArgumentTypeError
+					expect {instance.return_nil( {"key" => 123} )}.to raise_error Rtype::ArgumentTypeError
+				end
+				
+				it 'complicated type sig' do
+					klass.send :rtype, :return_nil, [ Hash.of(:to_i.and(:char), :to_i.and(:char)) ] => nil
+					instance.return_nil( {"key" => "val"} )
+					expect {instance.return_nil("hello")}.to raise_error Rtype::ArgumentTypeError
+					expect {instance.return_nil( {key: "val"} )}.to raise_error Rtype::ArgumentTypeError
+					expect {instance.return_nil( {"key" => :val} )}.to raise_error Rtype::ArgumentTypeError
+				end
+				
+				it 'allows empty hash' do
+					klass.send :rtype, :return_nil, [ Hash.of(Symbol, Integer) ] => nil
+					instance.return_nil({})
+				end
+			end
+			
 			describe 'Numeric check' do
 				it 'Num (Numeric)' do
 					klass.send :rtype, :return_nil, [Num >= 0] => Any

@@ -1,14 +1,14 @@
 module Rtype
 	module Behavior
-		# Typed array behavior. empty array allowed
-		class TypedArray < Base
+		# Typed set behavior. empty set allowed
+		class TypedSet < Base
 			def initialize(type)
 				@type = type
 				Rtype.assert_valid_argument_type_sig_element(@type)
 			end
 
 			def valid?(value)
-				if value.is_a?(Array)
+				if value.is_a?(Set)
 					any = value.any? do |e|
 						!Rtype::valid?(@type, e)
 					end
@@ -19,7 +19,7 @@ module Rtype
 			end
 
 			def error_message(value)
-				"Expected #{value.inspect} to be an array with type #{@type.inspect}"
+				"Expected #{value.inspect} to be a set with type #{@type.inspect}"
 			end
 		end
 	end

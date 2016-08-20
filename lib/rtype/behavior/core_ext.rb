@@ -33,6 +33,20 @@ class Array
 	end
 end
 
+class Set
+	# @return [Rtype::Behavior::TypedSet]
+	def self.of(type_sig)
+		::Rtype::Behavior::TypedSet.new(type_sig)
+	end
+end
+
+class Hash
+	# @return [Rtype::Behavior::TypedHash]
+	def self.of(key_type, value_type)
+		::Rtype::Behavior::TypedHash.new(key_type, value_type)
+	end
+end
+
 class Num
 	# @param [Numeric] x
 	# @return [Proc]

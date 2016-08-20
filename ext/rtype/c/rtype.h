@@ -2,5 +2,5 @@
 	#define RTYPE_H
 	#include "ruby.h"
 	#include <string.h>
-	#define RTYPE_NATIVE_EXT_VERSION "0.6.6"
+	#define RTYPE_NATIVE_EXT_VERSION "0.6.7"
 #endif
