@@ -525,7 +525,7 @@ describe Rtype do
 				end
 				
 				it 'complicated type sig' do
-					klass.send :rtype, :return_nil, [ Hash.of(:to_i.and(:char), :to_i.and(:char)) ] => nil
+					klass.send :rtype, :return_nil, [ Hash.of(:to_i.and(:chars), :to_i.and(:chars)) ] => nil
 					instance.return_nil( {"key" => "val"} )
 					expect {instance.return_nil("hello")}.to raise_error Rtype::ArgumentTypeError
 					expect {instance.return_nil( {key: "val"} )}.to raise_error Rtype::ArgumentTypeError
