@@ -8,5 +8,5 @@ task :default => [:spec]
 # Benchmark
 desc "Compare with pure ruby and other gems"
 task :benchmark do
-  ruby "benchmark/benchmark.rb"
+	ruby "benchmark/benchmark.rb"
 end
