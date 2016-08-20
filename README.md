@@ -110,7 +110,7 @@ then, Rtype uses it. (**Do not** `require 'rtype-native'`)
   - Example: [Hash](#hash)
   
 - [Special Behaviors](#special-behaviors)
-  - `TypedArray`, `Num, Int, Flo`, `And`, `Xor`, `Not`, `Nilable`
+  - `TypedArray, TypedSet, TypedHash`, `Num, Int, Flo`, `And`, `Xor`, `Not`, `Nilable`
 
 ### Examples
 
