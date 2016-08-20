@@ -12,8 +12,13 @@ class Test
     a.to_i + b
   end
 
-  rtype({state: Boolean} => Boolean) # Hashes of Hashes params require () to prevent invalid syntax
+  rtype [{state: Boolean}] => Boolean
   def self.invert(state:)
+    !state
+  end
+
+  rtype({state: Boolean} => Boolean) # Hashes of Hashes params require () to prevent invalid syntax
+  def self.invert2(state:)
     !state
   end
 end
@@ -23,6 +28,10 @@ Test.new.sum(123, "asd")
 # Expected "asd" to be a Numeric
 
 Test::invert(state: 0)
+# (Rtype::ArgumentTypeError) for 'state' argument:
+# Expected 0 to be a Boolean
+
+Test::invert2(state: 0)
 # (Rtype::ArgumentTypeError) for 'state' argument:
 # Expected 0 to be a Boolean
 ```
