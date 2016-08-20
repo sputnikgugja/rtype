@@ -110,7 +110,7 @@ module Rtype
 	def define_typed_writer(owner, name, type_behavior)
 		raise ArgumentError, "name is nil" if name.nil?
 		valid?(type_behavior, nil)
-		define_typed_method owner, :"#{name}=", [type_behavior] => Any
+		define_typed_method owner, :"#{name.to_sym}=", [type_behavior] => Any
 	end
 
 	# This is just 'information'
