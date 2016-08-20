@@ -16,4 +16,7 @@ rvm:
 gemfile:
 - Gemfile
 - Gemfile-native
-- Gemfile-java
+matrix:
+  include:
+  - rvm: jruby-9.0.5.0
+    gemfile: Gemfile-java
