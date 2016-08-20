@@ -27,11 +27,11 @@ Test.new.sum(123, "asd")
 # (Rtype::ArgumentTypeError) for 2nd argument:
 # Expected "asd" to be a Numeric
 
-Test::invert(state: 0)
+Test.invert(state: 0)
 # (Rtype::ArgumentTypeError) for 'state' argument:
 # Expected 0 to be a Boolean
 
-Test::invert2(state: 0)
+Test.invert2(state: 0)
 # (Rtype::ArgumentTypeError) for 'state' argument:
 # Expected 0 to be a Boolean
 ```

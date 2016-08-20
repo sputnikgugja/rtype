@@ -1,14 +1,14 @@
 module Rtype
 	module Behavior
 		class NumericCheck < Base
-			@conditions = [
+			@@conditions = [
 				:>, :<, :>=, :<=, :==
 			]
 			
 			# @param [Symbol] condition
 			# @param [Numeric] x
 			def initialize(condition, x)
-				raise ArgumentError, "Invalid condition '#{condition}'" unless @conditions.include?(condition)
+				raise ArgumentError, "Invalid condition '#{condition}'" unless @@conditions.include?(condition)
 				raise ArgumentError, "x is not a Numeric" unless x.is_a?(Numeric)
 				@condition = condition
 				@x = x

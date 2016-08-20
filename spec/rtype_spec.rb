@@ -153,7 +153,7 @@ describe Rtype do
 	end
 
 	it 'Kernel#rtype_accessor' do
-		class TestClass
+		class AccessorTestClass
 			rtype_accessor :value, :value2, String
 
 			def initialize
@@ -161,23 +161,76 @@ describe Rtype do
 				@value2 = 123
 			end
 		end
-		expect {TestClass.new.value = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {TestClass.new.value}.to raise_error Rtype::ReturnTypeError
-		expect {TestClass.new.value2 = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {TestClass.new.value2}.to raise_error Rtype::ReturnTypeError
+		expect {AccessorTestClass.new.value = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {AccessorTestClass.new.value}.to raise_error Rtype::ReturnTypeError
+		expect {AccessorTestClass.new.value2 = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {AccessorTestClass.new.value2}.to raise_error Rtype::ReturnTypeError
 	end
 
 	it 'Kernel#rtype_accessor_self' do
-		class TestClass
+		class AccessorTestClass
 			@@value = 123
 			@@value2 = 123
-
 			rtype_accessor_self :value, :value2, String
 		end
-		expect {TestClass::value = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {TestClass::value}.to raise_error Rtype::ReturnTypeError
-		expect {TestClass::value2 = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {TestClass::value2}.to raise_error Rtype::ReturnTypeError
+		expect {AccessorTestClass::value = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {AccessorTestClass::value}.to raise_error Rtype::ReturnTypeError
+		expect {AccessorTestClass::value2 = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {AccessorTestClass::value2}.to raise_error Rtype::ReturnTypeError
+	end
+
+	it 'Kernel#rtype_reader' do
+		class ReaderTestClass
+			rtype_reader :value, :value2, String
+
+			def initialize
+				@value = 123
+				@value2 = 123
+			end
+		end
+		expect {ReaderTestClass.new.value = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {ReaderTestClass.new.value}.to raise_error Rtype::ReturnTypeError
+		expect {ReaderTestClass.new.value2 = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {ReaderTestClass.new.value2}.to raise_error Rtype::ReturnTypeError
+	end
+
+	it 'Kernel#rtype_reader_self' do
+		class ReaderTestClass
+			@@value = 123
+			@@value2 = 123
+			rtype_reader_self :value, :value2, String
+		end
+		expect {ReaderTestClass::value = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {ReaderTestClass::value}.to raise_error Rtype::ReturnTypeError
+		expect {ReaderTestClass::value2 = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {ReaderTestClass::value2}.to raise_error Rtype::ReturnTypeError
+	end
+
+	it 'Kernel#rtype_writer' do
+		class WriterTestClass
+			rtype_writer :value, :value2, String
+
+			def initialize
+				@value = 123
+				@value2 = 123
+			end
+		end
+		expect {WriterTestClass.new.value = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {WriterTestClass.new.value}.to raise_error Rtype::ReturnTypeError
+		expect {WriterTestClass.new.value2 = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {WriterTestClass.new.value2}.to raise_error Rtype::ReturnTypeError
+	end
+
+	it 'Kernel#rtype_writer_self' do
+		class WriterTestClass
+			@@value = 123
+			@@value2 = 123
+			rtype_writer_self :value, :value2, String
+		end
+		expect {WriterTestClass::value = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {WriterTestClass::value}.to raise_error Rtype::ReturnTypeError
+		expect {WriterTestClass::value2 = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {WriterTestClass::value2}.to raise_error Rtype::ReturnTypeError
 	end
 
 	describe 'Test type behaviors' do
