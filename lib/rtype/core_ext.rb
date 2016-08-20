@@ -236,10 +236,10 @@ private
 			
 			name = name.to_sym
 			rtype_writer name, Boolean
-			define_method(:"#{name}?") do |val|
+			define_method(:"#{name}?") do
 				instance_variable_get(:"@#{name}")
 			end
-			::Rtype::define_typed_reader(self, name, Boolean)
+			::Rtype::define_typed_reader(self, :"#{name}?", Boolean)
 		end
 		nil
 	end

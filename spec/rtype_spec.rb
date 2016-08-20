@@ -188,9 +188,7 @@ describe Rtype do
 				@value2 = 123
 			end
 		end
-		expect {ReaderTestClass.new.value = 123}.to raise_error Rtype::ArgumentTypeError
 		expect {ReaderTestClass.new.value}.to raise_error Rtype::ReturnTypeError
-		expect {ReaderTestClass.new.value2 = 123}.to raise_error Rtype::ArgumentTypeError
 		expect {ReaderTestClass.new.value2}.to raise_error Rtype::ReturnTypeError
 	end
 
@@ -200,9 +198,7 @@ describe Rtype do
 			@@value2 = 123
 			rtype_reader_self :value, :value2, String
 		end
-		expect {ReaderTestClass::value = 123}.to raise_error Rtype::ArgumentTypeError
 		expect {ReaderTestClass::value}.to raise_error Rtype::ReturnTypeError
-		expect {ReaderTestClass::value2 = 123}.to raise_error Rtype::ArgumentTypeError
 		expect {ReaderTestClass::value2}.to raise_error Rtype::ReturnTypeError
 	end
 
@@ -216,9 +212,7 @@ describe Rtype do
 			end
 		end
 		expect {WriterTestClass.new.value = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {WriterTestClass.new.value}.to raise_error Rtype::ReturnTypeError
 		expect {WriterTestClass.new.value2 = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {WriterTestClass.new.value2}.to raise_error Rtype::ReturnTypeError
 	end
 
 	it 'Kernel#rtype_writer_self' do
@@ -228,9 +222,48 @@ describe Rtype do
 			rtype_writer_self :value, :value2, String
 		end
 		expect {WriterTestClass::value = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {WriterTestClass::value}.to raise_error Rtype::ReturnTypeError
 		expect {WriterTestClass::value2 = 123}.to raise_error Rtype::ArgumentTypeError
-		expect {WriterTestClass::value2}.to raise_error Rtype::ReturnTypeError
+	end
+
+	it 'Kernel#float_accessor' do
+		class FloatAccessorTestClass
+			float_accessor :float, :int
+			
+			def initialize
+				@float = 10.0
+				@int = 10
+			end
+		end
+		
+		float_accessor_test = FloatAccessorTestClass.new
+		
+		float_accessor_test.float
+		expect {float_accessor_test.int}.to raise_error Rtype::ReturnTypeError
+		float_accessor_test.float = 5.0
+		float_accessor_test.float = 5
+		expect(float_accessor_test.float).to eql(5.0) # be(expected) => passes if actual.eql?(expected)
+		expect(float_accessor_test.float).not_to eql(5)
+	end
+
+	it 'Kernel#bool_accessor' do
+		class BoolAccessorTestClass
+			bool_accessor :state, :invalid_var
+			
+			def initialize
+				@state = false
+				@invalid_var = 123
+			end
+		end
+		
+		bool_accessor_test = BoolAccessorTestClass.new
+		
+		bool_accessor_test.state?
+		expect {bool_accessor_test.state}.to raise_error NoMethodError
+		expect(bool_accessor_test.state?).to eql(false)
+		bool_accessor_test.state = true
+		expect(bool_accessor_test.state?).to eql(true)
+		expect {bool_accessor_test.state = 123}.to raise_error Rtype::ArgumentTypeError
+		expect {bool_accessor_test.invalid_var?}.to raise_error Rtype::ReturnTypeError
 	end
 
 	describe 'Test type behaviors' do
