@@ -193,6 +193,56 @@ private
 		end
 		nil
 	end
+	
+	# Creates getter, setter methods.
+	# The getter method is typed with Float
+	# and the setter method is typed with Numeric.
+	# 
+	# If the setter is called with a numeric given,
+	# the setter convert the numeric to a float, and store it.
+	# 
+	# As a result, setter can accept a Numeric(Integer/Float), and getter always returns a Float
+	# 
+	# @param [Array<#to_sym>] names
+	# @return [void]
+	# 
+	# @raise [ArgumentError] If names contains nil
+	def float_accessor(*names)
+		names.each do |name|
+			raise ArgumentError, "names contains nil" if name.nil?
+			
+			name = name.to_sym
+			rtype_reader name, Float
+			define_method(:"#{name}=") do |val|
+				instance_variable_set(:"@#{name}", val.to_f)
+			end
+			::Rtype::define_typed_writer(self, name, Numeric)
+		end
+		nil
+	end
+	
+	# Creates getter, setter methods. And makes it typed with Boolean.
+	# The name of the getter ends with `?`.
+	# 
+	# e.g. `bool_accessor :closed` will create `closed=` and `closed?` methods
+	# 
+	# @param [Array<#to_sym>] names
+	# @return [void]
+	# 
+	# @raise [ArgumentError] If names contains nil
+	def bool_accessor(*names)
+		names.each do |name|
+			raise ArgumentError, "names contains nil" if name.nil?
+			
+			name = name.to_sym
+			rtype_writer name, Boolean
+			define_method(:"#{name}?") do |val|
+				instance_variable_get(:"@#{name}")
+			end
+			::Rtype::define_typed_reader(self, name, Boolean)
+		end
+		nil
+	end
 end
 
 class Method
