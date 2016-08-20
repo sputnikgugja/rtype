@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   
   if defined?(JRUBY_VERSION)
     s.platform = "java"
-    s.add_dependency "rtype-java"
+    s.add_dependency "rtype-java", Rtype::VERSION
   end
 
   s.add_development_dependency "rake", "~> 11.0"
