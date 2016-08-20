@@ -12,7 +12,7 @@ class Test
     a.to_i + b
   end
 
-  rtype {state: Boolean} => Boolean
+  rtype({state: Boolean} => Boolean) # Hashes of Hashes params require () to prevent invalid syntax
   def self.invert(state:)
     !state
   end
