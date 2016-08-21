@@ -11,7 +11,7 @@ OPTIONS=$( getopt -o v:,h -- "$@" )
 
 [ $? -ne 0 ] && exit 1
 
-set -- $OPTIONS
+eval set -- $OPTIONS
 
 while true; do
 	case $1 in
