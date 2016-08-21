@@ -1,0 +1,46 @@
+#!/bin/bash
+
+help() {
+	echo "deploy [OPTIONS]"
+	echo "    -h        Prints help"
+	echo "    -v ARG    Specifies gem version (required)"
+	exit 0
+}
+
+OPTIONS=$( getopt -o v:,h -- "$@" )
+
+[ $? -ne 0 ] && exit 1
+
+set -- $OPTIONS
+
+while true; do
+	case $1 in
+		-v )
+			VERSION=$2
+			gem push rtype-${VERSION}.gem
+			gem push rtype-${VERSION}-java.gem
+			gem push rtype-java-${VERSION}-java.gem
+			gem push rtype-native-${VERSION}.gem
+			shift
+			;;
+		-h )
+			help
+			;;
+		-- )
+			# shift
+			# break
+    		echo "Option -h or -v required"
+    		exit 1
+			;;
+    	* )
+    		echo "Unknown option: $1"
+    		exit 1
+    		;;
+	esac
+	shift
+done
+
+if [ $# -ne 0 ]; then
+  echo "Unknown option(s): $@"
+  exit 1
+fi
