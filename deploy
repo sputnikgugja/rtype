@@ -3,7 +3,7 @@
 help() {
 	echo "deploy [OPTIONS]"
 	echo "    -h        Prints help"
-	echo "    -v ARG    Specifies gem version (required)"
+	echo "    -v ARG    Specifies gem version"
 	exit 0
 }
 
@@ -33,14 +33,14 @@ while true; do
     		exit 1
 			;;
     	* )
-    		echo "Unknown option: $1"
-    		exit 1
-    		;;
+			echo "Unknown option: $1"
+			exit 1
+			;;
 	esac
 	shift
 done
 
 if [ $# -ne 0 ]; then
-  echo "Unknown option(s): $@"
-  exit 1
+	echo "Unknown option(s): $@"
+	exit 1
 fi
